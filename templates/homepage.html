@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Chatbot</title>
+    <style>
+        body {
+            /* font-family: Arial, sans-serif; */
+            font-family: 'Exo', sans-serif;
+            font-weight: bold;
+            background-color: #f2f2f2;
+            margin: 0;
+            padding: 0;
+        }
+
+        h1 {
+            text-align: center;
+            text-shadow: #f2f2f2;
+            color: rgb(12, 18, 36);
+            padding: 5%;
+            font-size: 450%;
+            
+            padding-bottom: 7%;
+        }
+
+     
+        form {
+            /* height: 520px;
+    width: 400px; */
+            background-color: rgba(255, 255, 255, 0.13);
+            text-align: center;
+            margin: 20px auto;
+            max-width: 45%;
+            max-height: 40%;
+            padding: 20%;
+            transform: translate(-50%, -50%);
+            /* top: 50%;
+    left: 50%; */
+            border-radius: 10px;
+            backdrop-filter: blur(5px);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 0 40px rgba(33, 32, 39, 0.6);
+            padding: 50px 35px;
+            margin-top: 5%;
+            margin-left: 50%;
+        }
+
+        form * {
+            font-family: 'Poppins', sans-serif;
+            color: #07090a;
+            letter-spacing: 0.5px;
+            outline: none;
+            border: none;
+            font-size:150%;
+        }
+
+        input[type="text"] {
+            width: 75%;
+            padding: 10%;
+            margin: 10px 0;
+            background-color: #d3d5df;
+            border: 1px solid rgba(24, 17, 35, 0.596);
+            border-radius: 1%;
+        }
+
+        input[type="submit"] {
+            box-shadow: 0 0 10px rgb(11, 38, 52);
+            border: 1px solid rgb(237, 246, 246);
+            margin-top:5%;
+            padding: 2.5%;
+            padding-left: 5%;
+            padding-right: 5%;
+            /* background-color: #eff9ef; */
+            color: rgb(199, 203, 203);
+            cursor: pointer;
+            background-color: black;
+            border-radius: 5px;
+            transition: background-color 0.2s ease;
+        }
+
+        input[type="submit"]:hover {
+            /* background-color: #555; */
+            background-color: rgb(172, 185, 208);
+            color: rgb(18, 25, 25);
+        }
+
+            
+        .navbar {
+  overflow: hidden;
+  background-color: rgb(108, 218, 220);
+  background-image: url("images/navbar_bg.jpg");
+  
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  z-index: 1000;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  color: black;
+}
+@font-face {
+  font-family: Impact;
+  src: url(impact/impact.ttf);
+}
+@font-face {
+  font-family: Cambria, Cochin;
+  src: url(Cochin-Font-1/Cochin.ttf);
+}
+.active {
+  overflow: hidden;
+  background-image: url("images/navbar_bg.jpg");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  /* Add an active/current color */
+}
+
+.navbar a {
+  float: left;
+  margin-right: 15px;
+  margin-left: 5px;
+  margin-bottom: 5px;
+  margin-top: 5px;
+  display: block;
+  color: rgb(23, 14, 12);
+  text-align: center;
+  padding: 10px 18px;
+  text-decoration: none;
+  font-size: 18px;
+}
+
+.current {
+  border-color: #55628d;
+  border-radius: 20px;
+  border-width: 0.1px;
+  border-style: outset;
+  border-style: solid;
+  color: antiquewhite;
+  background-color: #5c558d;
+}
+
+        body {
+            background: #adafd5;
+            background-image: linear-gradient(to bottom, rgba(119, 136, 183, 0.511), rgba(73, 90, 152, 0.656)), url("https://img.freepik.com/free-vector/clean-medical-background_53876-97927.jpg?w=1800&t=st=1698561543~exp=1698562143~hmac=8e469b09d67cfccfb0e2dcc291ec29258f111c8ee8280448e7e49bce5516f0e8");
+            /* background: -webkit-linear-gradient(to left, #8f94fb, #4e54c8); */
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-attachment: fixed;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            margin: 0;
+            padding: 0;
+
+        }
+
+        .context {
+            width: 100%;
+            position: absolute;
+            top: 10vh;
+            z-index: 1000;
+        }
+
+        .answer {
+            background-color: rgba(255, 255, 255, 0.13);
+            text-align: center;
+            margin: 20px auto;
+            max-width: 45%;
+            max-height: 40%;
+            padding: 20%;
+            transform: translate(-50%, -50%);
+            /* top: 50%;
+    left: 50%; */
+            border-radius: 10px;
+            backdrop-filter: blur(5px);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 0 40px rgba(33, 32, 39, 0.6);
+            padding: 50px 35px;
+          
+            margin-left: 50%;
+        }
+
+       
+
+       
+    </style>
+</head>
+
+<body>
+    <div class="navbar">
+        <a href="/">Home</a>
+
+    </div>
+    <div class="context">
+        <h1>MedBot</h1>
+
+        <form action="/chat" method="POST" >
+            <input type="text" name="user_input" placeholder="Type your message">
+            <input type="submit" value="Send">
+        </form>
+
+        <div class="answer">
+        {% if user_input %}
+            <p>Answer to: {{ user_input }} (Here, answer by trained LLM model could have been sent by the Flask Server)</p>
+        {% endif %}
+        </div>
+        
+
+        
+
+    
+        
+    </div>
+</body>
+<script>
+    const navbar = document.querySelector(".navbar"); // select the navbar element
+    const links = navbar.querySelectorAll("a"); // select all the links inside the navbar
+
+    // add mouseover event listener to each link
+    links.forEach((link) => {
+        link.addEventListener("mouseover", () => {
+            link.style.color = "white";
+            link.style.backgroundColor = "#8f94fb";
+            link.style.borderRadius = "20px"; // change the color of the link on hover
+        });
+
+        link.addEventListener("mouseout", () => {
+            link.style.color = "";
+            link.style.backgroundColor = ""; // reset the color of the link when the mouse is moved away
+        });
+    });
+
+</script>
+
+
+</html>
